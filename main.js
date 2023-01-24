@@ -1,54 +1,97 @@
+const buttons = document.querySelectorAll("img")
+const result = document.querySelector("#result")  
+const feedBack = document.querySelector("#feedback")
+const playAgain = document.querySelector("#playAgainBtn")
+const alertBox = document.querySelector("#alert");
+let pressedButtonValue;
+
+
+
 function getComputerChoice () {
     const choice = ["rock", "paper", "scissors"]
     let random = Math.floor(Math.random() * choice.length)
     return choice[random]
 }
 getComputerChoice()
+
+buttons.forEach(function(button) {
+    button.addEventListener('click', function(event) {
+      pressedButtonValue = event.target.getAttribute("alt");
+      game(playRound());
+    });
+  });
+  let playerScore = 0
+  let computerScore = 0
+  
+
 function playRound(playerSelection, computerSelection) {  
     computerSelection = getComputerChoice()
-    playerSelection = prompt("Rock, Paper, Scissors?").toLowerCase()
+    playerSelection = pressedButtonValue.toLowerCase()
+
     if(computerSelection == "rock" && playerSelection == "paper"){
-        //alert("You Win! Paper beats Rock")
+        feedBack.textContent = "You Win! Paper beats Rock" 
         return "Win!"
     }else if(computerSelection == "paper" && playerSelection == "rock"){
-        //alert("You Lose! Paper beats Rock")
+        feedBack.textContent = "You Lose! Paper beats Rock"
         return "Lose!"
     }else if(computerSelection == "scissors" && playerSelection == "rock"){
-        //alert("You Win! Rock beats Scissors")
+        feedBack.textContent = "You Win! Rock beats Scissors"
         return "Win!"
     }else if(computerSelection == "rock" && playerSelection == "scissors"){
-        //alert("You Lose! Rock beats Scissors")
+        feedBack.textContent = "You Lose! Rock beats Scissors"
         return "Lose!"
     }else if(computerSelection == "paper" && playerSelection == "scissors"){
-        //alert("You Win! Scissors beats paper")
+        feedBack.textContent = "You Win! Scissors beats paper"
         return "Win!"
     }else if(computerSelection == "scissors" && playerSelection == "paper"){
-        //alert("You Lose! Scissors beats paper")
+        feedBack.textContent = "You Lose! Scissors beats paper"
         return "Lose!"
     }else if(computerSelection == playerSelection){
-        //alert("It's a tie")
+        feedBack.textContent = "Tie!"
+        return 
     }else{
         alert("Wrong input!")
     }
 }
-
-function game() {
-    let playerScore = 0
-    let computerScore = 0
-    for (let i = 0; i < 5; i++) {
-        let result = playRound()
-          if(result === "Win!"){
-            playerScore ++
-          }else if(result === "Lose!"){
-            computerScore ++
-          }
+function alertFunc(notification) {
+    alertBox.innerHTML = notification;
+    alertBox.style.display = "block";
+    playAgain.style.display = "block";
+}
+function game(score) {
+    for (let i = 0; i < 1; i++) {
+        if(score === "Win!"){
+          playerScore += 1
+        }else if(score === "Lose!"){
+          computerScore += 1
+        }
     }
-    if (playerScore > computerScore) {
-        alert(`You Win! ${playerScore} - ${computerScore}`)
-    }else if (playerScore < computerScore){
-        alert(`You Lose! ${playerScore} - ${computerScore}`)
-    }else {
-        alert(`It's a tie! ${playerScore} - ${computerScore}`)
+result.textContent = `${playerScore} - ${computerScore}`
+    
+    if (playerScore === 5) {
+        alertFunc(`You Win! ${playerScore} - ${computerScore}`)
+        result.textContent = `${playerScore} - ${computerScore}`
+        playerScore = 0
+        computerScore = 0
+        result.textContent = `${playerScore} - ${computerScore}`
+        feedBack.textContent = "New Game"
+        playAgain.addEventListener("click", function(){
+            alertBox.style.display = "none";
+            playAgain.style.display = "none";
+        })
+    }else if (computerScore === 5){
+        alertFunc(`You Lost! ${playerScore} - ${computerScore}`)
+        result.textContent = `${playerScore} - ${computerScore}`
+        playerScore = 0
+        computerScore = 0
+        result.textContent = `${playerScore} - ${computerScore}`
+        feedBack.textContent = "New Game"
+        playAgain.addEventListener("click", function(){
+            alertBox.style.display = "none";
+            playAgain.style.display = "none";
+        })
     }
 }
-game()
+
+
+
