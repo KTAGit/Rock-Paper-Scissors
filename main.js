@@ -69,7 +69,7 @@ function game(score) {
 result.textContent = `${playerScore} - ${computerScore}`
     
     if (playerScore === 5) {
-        alertFunc(`You Win! ${playerScore} - ${computerScore}`)
+        alertFunc(`You Won! ${playerScore} - ${computerScore}`)
         result.textContent = `${playerScore} - ${computerScore}`
         playerScore = 0
         computerScore = 0
